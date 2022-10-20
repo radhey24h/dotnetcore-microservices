@@ -1,2 +1,3 @@
-# dotnetcore-nodeJs-microservices
-dotnetcore-nodeJs-microservices
+# dotnetcore-6-microservices
+
+dotnetcore-6-microservices
