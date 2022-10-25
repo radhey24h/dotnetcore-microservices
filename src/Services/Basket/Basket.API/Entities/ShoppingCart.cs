@@ -1,4 +1,6 @@
-﻿namespace Basket.API.Entities
+﻿using System.Collections.Generic;
+
+namespace Basket.API.Entities
 {
     public class ShoppingCart
     {
@@ -13,9 +15,9 @@
         {
             UserName = userName;
         }
-
-        public decimal TotalPrice
-        {
+        
+        public decimal TotalPrice 
+        { 
             get
             {
                 decimal totalprice = 0;

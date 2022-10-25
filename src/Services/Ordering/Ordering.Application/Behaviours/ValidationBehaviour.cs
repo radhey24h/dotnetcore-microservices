@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -9,17 +8,17 @@ using ValidationException = Ordering.Application.Exceptions.ValidationException;
 
 namespace Ordering.Application.Behaviours
 {
-    public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TResponse : IAsyncResult
+        where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
         public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
         {
-            _validators = validators ?? throw new ArgumentNullException(nameof(validators));
+            _validators = validators;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, 
-            RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             if (_validators.Any())
             {
@@ -31,8 +30,8 @@ namespace Ordering.Application.Behaviours
                 if (failures.Count != 0)
                     throw new ValidationException(failures);
             }
-
             return await next();
         }
+
     }
 }
