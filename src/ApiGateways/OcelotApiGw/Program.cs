@@ -14,7 +14,9 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 builder.Services.AddOcelot().AddCacheManager(settings => settings.WithDictionaryHandle());
 
 var app = builder.Build();
+
 app.UseRouting();
-await app.UseOcelot();
+
+app.UseOcelot();
 
 app.Run();
